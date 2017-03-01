@@ -34,4 +34,9 @@ legend("topright", legend=names(bardata), fill=rainbow(3))
 barplot(as.matrix(bardata), ylab="Count [$]", main="Areas by Year", beside=TRUE, col=rainbow(3), xlim=c(0,15))
 legend("topright", legend=names(bardata), fill=rainbow(3))
 
+# Create tree map
+install.packages('treemap')
+library(treemap)
 
+# TODO: Vendors instead of areas
+treemap(revenue, index="areas", vSize="total")
