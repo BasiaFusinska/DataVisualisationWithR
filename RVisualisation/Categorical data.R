@@ -1,39 +1,35 @@
-# Taken courses subjects & genders of the attendees
-courses <- data.frame(gender=c('F', 'F', 'M', 'F', 'M', 'F', 'M', 'M', 'M', 'F'),
-                      areas=c('L', 'M', 'L', 'F', 'M', 'M', 'F', 'M', 'F', 'M'))
-
 # Simple barplot counting the occurences of each subject
-barplot(table(courses$areas), ylab="Count", main="Areas")
+courses.areas <- table(courses.aggregate$area) 
+barplot(courses.areas, ylab="Count", main="Areas")
 
 # Barplot containing information about genders
-barplot(table(courses), ylab="Count", main="Genders by Areas", col=heat.colors(2), ylim=c(0,7), xlim=c(0,5))
-legend("topright", legend=levels(courses$gender), fill=heat.colors(2))
+vendor.area <- data.frame(courses.aggregate$area, courses.aggregate$vshort)
+vendor.area <- table(vendor.area)
+
+barplot(vendor.area, ylab="Count", main="Areas by Vendor", col=rainbow(4), xlim=c(0,17))
+legend("topright", legend=row.names(vendor.area), fill=rainbow(4), text.width = 3)
 
 # Courses taken by year
-courses <- data.frame(areas=c('L', 'M', 'L', 'F', 'M', 'M', 'F', 'M', 'F', 'M',
-                              'L', 'M', 'L', 'F', 'M', 'M', 'F', 'M', 'F', 'M',
-                              'L', 'M', 'L', 'F', 'M', 'M', 'F', 'M', 'F', 'M'),
-                      years=c('2014', '2015', '2015', '2014', '2014', '2016', '2016', '2015', '2015', '2015',
-                              '2015', '2016', '2014', '2016', '2014', '2016', '2016', '2014', '2016', '2015',
-                              '2015', '2016', '2016', '2016', '2015', '2016', '2014', '2016', '2016', '2016'))
+# Stacked side by side
+areas.year <- data.frame(courses.aggregate$area, courses.aggregate$year)
+areas.year <- table(areas.year)
 
-barplot(table(courses), ylab="Count", main="Areas By Year", col=rainbow(3), beside=TRUE, ylim=c(0,9), xlim=c(0,17))
-legend("topright", legend=levels(courses$areas), fill=rainbow(3))
+barplot(areas.year, ylab="Count", main="Areas By Year", col=rainbow(4), beside=TRUE)
+legend("topleft", legend=row.names(areas.year), fill=rainbow(4), text.width = 3)
 
 # Stacked bar chart
-barplot(table(courses), ylab="Count", main="Years by Areas", col=heat.colors(3), ylim=c(0,17), xlim=c(0,5))
-legend("topright", legend=levels(courses$areas), fill=heat.colors(3))
+barplot(areas.year, ylab="Count", main="Areas by year", col=rainbow(4), xlim=c(0,5))
+legend("topright", legend=row.names(areas.year), fill=rainbow(4), text.width = .8)
 
 # 100% stacked bar chart
-# Express Table entries as fraction of marginal table
-barplot(prop.table(bartable, 2) * 100, col=heat.colors(3), ylab="%", main="Years by Areas", xlim=c(0,5))
-legend("topright", legend=levels(courses$areas), fill=heat.colors(3))
+# Table entries as fraction of marginal table
+barplot(prop.table(areas.year, 2) * 100, col=rainbow(4), ylab="%", main="Years by Areas", xlim=c(0,5))
+legend("topright", legend=row.names(areas.year), fill=rainbow(4), text.width = .8)
 
 # Pie chart
 # Create the labels
-areas <- table(courses$areas)
-per_labels <- round(areas/sum(areas) * 100, 1)
+per_labels <- round(courses.areas/sum(courses.areas) * 100, 1)
 per_labels <- paste(per_labels, "%", sep="")
 
-pie(table(courses$areas), col=rainbow(3), labels=per_labels)
-legend("topright", legend=levels(courses$areas), fill=rainbow(3))
+pie(courses.areas, col=rainbow(4), labels=per_labels)
+legend("topleft", legend=names(courses.areas), fill=rainbow(4), text.width = .52)
