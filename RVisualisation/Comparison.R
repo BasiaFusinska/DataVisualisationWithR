@@ -26,7 +26,7 @@ fareas <- names(bardata_cast)
 fareas <- fareas[2:length(fareas)]
 formula <- as.formula(paste(paste(fareas, collapse= "+"), " ~ years"))
 
-barchart(formula, data=bardata_cast, stack=TRUE, horizontal=FALSE, ylab="Count [$]", main="Areas by Year")
+barchart(formula, data=bardata_cast, stack=TRUE, horizontal=FALSE, ylab="Count [$]", main="Areas by Year", auto.key=TRUE)
 
 # ggplot2
 install.packages('ggplot2')
@@ -73,9 +73,11 @@ bardata$freq <- aggregate(total~years+areas, data=revenue, length)$total
 
 # base
 plot(bardata$freq, bardata$total, xlab="Units", ylab="Revenue", col=bardata$areas)
+legend("topleft", legend=levels(bardata$areas), col=1:length(levels(bardata$areas)), pch=21)
 
 #lattice
-xyplot(total~freq, data=bardata, xlab="Units", ylab="Revenue", col=bardata$areas)
+xyplot(total~freq, data=bardata, xlab="Units", ylab="Revenue",
+       group = areas, auto.key = TRUE)
 
 # ggplot
 ggplot(bardata, aes(x=freq, y=total)) + geom_point(aes(col=areas))
