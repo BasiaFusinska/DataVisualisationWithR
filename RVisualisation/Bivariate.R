@@ -27,7 +27,7 @@ lines(x, c(250, 1000, 1750), type='l', lty=2, col="blue")
 legend("topleft", c("revenue", "trend"), col=c("black", "blue"), lty=1:2)
 
 # plot revenue per units number
-plot(bardata$freq, bardata$total, xlab="Units", ylab="Revenue")
+plot(total~freq, data=bardata, xlab="Units", ylab="Revenue")
 lines(c(7, 10, 13, 14), c(250, 1000, 1750, 2000), type='l', lty=2, col="blue")
 legend("topleft", c("revenue/freq", "trend"), col=c("black", "blue"), lty=c(0,2), pch=c(21, -1))
 
@@ -35,6 +35,6 @@ legend("topleft", c("revenue/freq", "trend"), col=c("black", "blue"), lty=c(0,2)
 bardata <- aggregate(total~years + areas, data=revenue, sum)
 bardata$freq <- aggregate(total~years + areas, data=revenue, length)$total
 
-plot(bardata$freq, bardata$total, xlab="Units", ylab="Revenue", col=bardata$areas)
+plot(total~freq, data=bardata, xlab="Units", ylab="Revenue", col=areas)
 legend("topleft", legend=levels(bardata$areas), col=1:length(levels(bardata$areas)), pch=21)
 

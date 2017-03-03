@@ -72,7 +72,7 @@ bardata <- aggregate(total~years+areas, data=revenue, sum)
 bardata$freq <- aggregate(total~years+areas, data=revenue, length)$total
 
 # base
-plot(bardata$freq, bardata$total, xlab="Units", ylab="Revenue", col=bardata$areas)
+plot(total~freq, data=bardata, xlab="Units", ylab="Revenue", col=areas, pch=19, cex=total/200)
 legend("topleft", legend=levels(bardata$areas), col=1:length(levels(bardata$areas)), pch=21)
 
 #lattice
