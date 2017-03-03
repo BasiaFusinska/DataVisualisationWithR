@@ -73,11 +73,12 @@ bardata$freq <- aggregate(total~years+areas, data=revenue, length)$total
 
 # base
 plot(total~freq, data=bardata, xlab="Units", ylab="Revenue", col=areas, pch=19, cex=total/200)
-legend("topleft", legend=levels(bardata$areas), col=1:length(levels(bardata$areas)), pch=21)
+legend("topleft", legend=levels(bardata$areas), col=1:length(levels(bardata$areas)), pch=19)
 
 #lattice
-xyplot(total~freq, data=bardata, xlab="Units", ylab="Revenue",
-       group = areas, auto.key = TRUE)
+xyplot(total~freq, data=bardata, xlab="Units", ylab="Revenue", pch=19,
+       group = areas, 
+       auto.key = TRUE)
 
 # ggplot
 ggplot(bardata, aes(x=freq, y=total)) + geom_point(aes(col=areas))
