@@ -27,7 +27,7 @@ row.names(bardata) <- bardata$years
 bardata$years <- NULL
 
 # Stacked barplot
-barplot(as.matrix(bardata), ylab="Count [$]", main="Areas by Year", col=rainbow(3), xlim=c(0,5))
+barplot(t(as.matrix(bardata)), ylab="Count [$]", main="Areas by Year", col=rainbow(3), xlim=c(0,5))
 legend("topright", legend=names(bardata), fill=rainbow(3))
 
 # Grouped bar char
