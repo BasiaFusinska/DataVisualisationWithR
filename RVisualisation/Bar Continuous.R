@@ -1,19 +1,7 @@
-# Revenue form the courses taken by year
-revenue <- data.frame(total=as.numeric(c(250, 20, 35, 0, 5, 120, 550, 12, 14, 18,
-                              50, 130, 15, 44, 33, 250, 0, 99, 95, 20,
-                              30, 200, 350, 11, 55, 0, 12, 160, 44, 180)),
-                      areas=c('L', 'M', 'L', 'F', 'M', 'M', 'F', 'M', 'F', 'M',
-                              'L', 'M', 'L', 'F', 'M', 'M', 'F', 'M', 'F', 'M',
-                              'L', 'M', 'L', 'F', 'M', 'M', 'F', 'M', 'F', 'M'),
-                      years=c('2014', '2015', '2015', '2014', '2014', '2016', '2016', '2015', '2015', '2015',
-                              '2015', '2016', '2014', '2016', '2014', '2016', '2016', '2014', '2016', '2015',
-                              '2015', '2016', '2016', '2016', '2015', '2016', '2014', '2016', '2016', '2016'))
+# Revenue by year
+revenue.year <- aggregate(price~year, data=courses.aggregate, sum)
 
-# Prepare the sum of data for every year
-bardata <- aggregate(total~years, data=revenue, sum)
-
-# Simple bar plot
-barplot(bardata$total, names.arg = bardata$years , ylab="Count [$]", main="Areas")
+barplot(revenue.year$price, names.arg = revenue.year$year , ylab="Count [$]", main="Revenue per year")
 
 # Stacked bar plot
 # Install reshape package
@@ -21,22 +9,20 @@ install.packages('reshape')
 library(reshape)
 
 # Aggregate data
-bardata_aggr <- aggregate(total ~ years + areas, data=revenue, sum)
-bardata <- cast(bardata_aggr, years ~ areas, value="total")
-row.names(bardata) <- bardata$years
-bardata$years <- NULL
+revenue.year.area <- aggregate(price ~ year + area, data=courses.aggregate, sum)
+rya <- t(cast(revenue.year.area, year ~ area, value="price"))
 
 # Stacked barplot
-barplot(t(as.matrix(bardata)), ylab="Count [$]", main="Areas by Year", col=rainbow(3), xlim=c(0,5))
-legend("topright", legend=names(bardata), fill=rainbow(3))
+barplot(rya, ylab="Count [$]", main="Revenue by Year & Area", col=rainbow(4), xlim=c(0,5))
+legend("topright", legend=row.names(rya), fill=rainbow(4), text.width = .8)
 
-# Grouped bar char
-barplot(as.matrix(bardata), ylab="Count [$]", main="Areas by Year", beside=TRUE, col=rainbow(3), xlim=c(0,15))
-legend("topright", legend=names(bardata), fill=rainbow(3))
+# Grouped bar chart
+barplot(rya, ylab="Count [$]", main="Revenue by Year & Area", col=rainbow(4), beside=TRUE, xlim=c(0,20))
+legend("topright", legend=row.names(rya), fill=rainbow(3), text.width = 2.5)
 
 # Create tree map
 install.packages('treemap')
 library(treemap)
 
-# TODO: Vendors instead of areas
-treemap(revenue, index="areas", vSize="total")
+# Revenue per vendor
+treemap(courses.aggregate, index="vendor", vSize="price", title="Revenue per vendor")
