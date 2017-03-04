@@ -19,10 +19,3 @@ legend("topright", legend=row.names(rya), fill=rainbow(4), text.width = .8)
 # Grouped bar chart
 barplot(rya, ylab="Count [$]", main="Revenue by Year & Area", col=rainbow(4), beside=TRUE, xlim=c(0,20))
 legend("topright", legend=row.names(rya), fill=rainbow(3), text.width = 2.5)
-
-# Create tree map
-install.packages('treemap')
-library(treemap)
-
-# Revenue per vendor
-treemap(courses.aggregate, index="vendor", vSize="price", title="Revenue per vendor")
