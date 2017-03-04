@@ -2,7 +2,7 @@
 courses.areas <- table(courses.aggregate$area) 
 barplot(courses.areas, ylab="Count", main="Areas")
 
-# Barplot containing information about genders
+# Barplot containing information about areas
 vendor.area <- data.frame(courses.aggregate$area, courses.aggregate$vshort)
 vendor.area <- table(vendor.area)
 
