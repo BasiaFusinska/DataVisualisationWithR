@@ -26,10 +26,14 @@ users <- data.frame(id=1:500,
                     username=paste("user", 1:100, sep = ""))
 
 # Taken courses
+years <- as.integer(sample(c(2014, 2015, 2016), 2500, replace=TRUE, prob=c(.1, .3, .6)))
+years <- c(years, as.integer(sample(c(2014, 2015, 2016), 1500, replace=TRUE, prob=c(.3, .5, .2))))
+years <- c(years, as.integer(sample(c(2014, 2015, 2016), 1000, replace=TRUE, prob=c(.7, .2, .1))))
+
 taken.courses <- data.frame(id=1:5000,
                             course=sample(1:100, 5000, replace=TRUE),
                             user=sample(1:500, 5000, replace=TRUE),
-                            year=as.integer(sample(c(2014, 2015, 2016), 5000, replace=TRUE, prob=c(.1, .3, .6))),
+                            year=years,
                             month=sample(1:12, 5000, replace=TRUE, prob=c(.2, .12, .1, .08, .07, .05, .03, .02, .14, .1, .07, .02)))
 
 # Merge the data and prepare data frame
