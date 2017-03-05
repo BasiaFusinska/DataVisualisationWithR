@@ -22,8 +22,12 @@ courses <- data.frame(id=1:100,
                       name=paste("course", 1:100))
 
 # Users
+install.packages('randomNames')
+library('randomNames') 
+
 users <- data.frame(id=1:500,
-                    username=paste("user", 1:100, sep = ""))
+                    username=paste("user", 1:100, sep = ""),
+                    name=randomNames(500,which.names='both'))
 
 # Taken courses
 years <- as.integer(sample(c(2014, 2015, 2016), 2500, replace=TRUE, prob=c(.1, .3, .6)))
@@ -39,10 +43,19 @@ taken.courses <- data.frame(id=1:5000,
 # Merge the data and prepare data frame
 courses.merge <- merge(x=taken.courses, y=courses, by.x="course", by.y="id")
 courses.merge <- merge(x=courses.merge, y=areas, by.x="area", by.y="id")
+courses.merge$coursename <- courses.merge$name.x
+courses.merge$name.x <- NULL
+courses.merge$areaname <- courses.merge$name.y
+courses.merge$name.y <- NULL
 courses.merge <- merge(x=courses.merge, y=vendors, by.x="vendor", by.y="id")
+courses.merge$vname <- courses.merge$name
+courses.merge$name <- NULL
+courses.merge <- merge(x=courses.merge, y=users, by.x="user", by.y="id")
 
-courses.aggregate <- data.frame(area=courses.merge$name.y,
-                                vendor=courses.merge$name,
+courses.aggregate <- data.frame(username=courses.merge$username,
+                                name=courses.merge$name,
+                                area=courses.merge$areaname,
+                                vendor=courses.merge$vname,
                                 vshort=courses.merge$short,
                                 year=courses.merge$year,
                                 month=courses.merge$month,
