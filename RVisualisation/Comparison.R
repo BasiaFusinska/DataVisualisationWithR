@@ -21,7 +21,9 @@ install.packages('ggplot2')
 library(ggplot2)
 
 ggplot(revenue.year.area, aes(x = year, y=price, fill = area)) + 
-  geom_bar(stat = "identity")
+  geom_bar(stat = "identity") +
+  ggtitle("Revenue by Year & Area") +
+  ylab("Count [$]")
 
 # Histogram
 # Get revenue per month
@@ -34,7 +36,10 @@ hist(revenue.year.month$price, main="Ditribution of revenue per month", xlab="Re
 histogram(~price, data=revenue.year.month, type = "count", main="Ditribution of revenue per month", xlab="Revenue per month", breaks = 20, col=heat.colors(20))
 
 # ggplot
-ggplot(revenue.year.month, aes(x = price)) + geom_histogram(stat = "bin", binwidth=2500, aes(fill=..count..))
+ggplot(revenue.year.month, aes(x = price)) + 
+  geom_histogram(stat = "bin", binwidth=2500, aes(fill=..count..)) +
+  ggtitle("Ditribution of revenue per month") +
+  xlab("Revenue per month")
 
 # Box plot
 # base
@@ -55,7 +60,11 @@ bwplot(price~factor(year), data=revenue.year.month, main="Total by Year",
 
 # ggplot
 ggplot(revenue.year.month, aes(x=factor(year), y=price)) + 
-  geom_boxplot(aes(fill=factor(year)))
+  geom_boxplot(aes(fill=factor(year))) +
+  ggtitle("Total by Year") +
+  ylab("Revenue") +
+  xlab("Year")
+
 
 # Scatter plot
 # Monthly revenue by area
@@ -72,7 +81,12 @@ xyplot(price~units, data=revenue.month.area, xlab="Units", ylab="Revenue [$]", p
        auto.key = TRUE)
 
 # ggplot
-ggplot(revenue.month.area, aes(x=units, y=price)) + geom_point(aes(col=area))
+ggplot(revenue.month.area, aes(x=units, y=price)) +
+  geom_point(aes(col=area)) +
+  ggtitle("Revenue by Units (All years)") +
+  ylab("Revenue [$]") +
+  xlab("Units") +
+
 
 # set up size as total for the specific vendor
 # Get the revenue for DataLearn vendor
@@ -86,4 +100,9 @@ revenue.month.vendor$dltotal <- revenue.month.vendor$price.y
 revenue.month.vendor$price.y <- NULL
 revenue.month.vendor$dltotal[is.na(revenue.month.vendor$dltotal)] <- 0
 
-ggplot(revenue.month.vendor, aes(x=units, y=total)) + geom_point(aes(col=area, size=dltotal))
+ggplot(revenue.month.vendor, aes(x=units, y=total)) + 
+  geom_point(aes(col=area, size=dltotal)) +
+  ggtitle("Revenue by Units (All years)") +
+  ylab("Revenue [$]") +
+  xlab("Units")
+

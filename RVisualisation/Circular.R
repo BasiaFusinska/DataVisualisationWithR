@@ -3,4 +3,6 @@ area.vendor <- data.frame(area=courses.merge$areaname, vendor=courses.merge$vnam
 circular.data <- with(area.vendor, table(vendor, area))
 
 # Make the circular plot
+install.packages('circlize')
+library(circlize)
 chordDiagram(as.data.frame(circular.data), transparency = 0.5)
